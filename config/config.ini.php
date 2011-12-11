@@ -5,11 +5,17 @@
  * @version
  * Created at:  2011-12-09 
  */
+//Base Site URL
+$config['base_url']	= '';
 
+//
+$config['charset'] = 'UTF-8';
+ 
 //数据库配置
 $database = array ('db_type' => '', 'db_host' => '', 'db_user' => '', 'db_password' => '', 'db_name' => '', 'db_table_prefix' => '' );
 
 //smarty模块配置
 $smarty = array ('smarty_dir' => '', 'smarty_template_dir' => '', 'smarty_compile_dir' => '' );
+
 
 ?>
