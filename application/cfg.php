@@ -25,6 +25,9 @@ if (defined('IS_DEBUG') && IS_DEBUG) {
 	@ini_set('display_errors', 0);
 }
 
+//定义框架版本
+define('PFW_VERSION', '0.0.1');
+
 // 应用程序目录
 define('P_ROOT', dirname(__FILE__));
 // function	扩展文件的存放目录
