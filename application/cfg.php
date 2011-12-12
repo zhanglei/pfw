@@ -25,9 +25,6 @@ if (defined('IS_DEBUG') && IS_DEBUG) {
 	@ini_set('display_errors', 0);
 }
 
-//定义框架版本
-define('PFW_VERSION', '0.0.1');
-
 // 应用程序目录
 define('P_ROOT', dirname(__FILE__));
 // function	扩展文件的存放目录
@@ -77,4 +74,15 @@ define('EXT_MODULES', ".mod.php");
 define('EXT_LANG', ".lang.php");
 // 系统模板文件扩展名
 define('EXT_TPL', ".tpl.html");
+
+// 判断当前请求是否是 API 请求的变量理由; AJAX请求同样被认为是API请求
+define('V_API_REQUEST_ROUTE', "R:api_sign");
+// 判断当前请求是否是 JS 请求的变量理由; 通常 AJAX请求同样被认为是API请求
+define('V_JS_REQUEST_ROUTE', "R:_");
+
+// 用于存储全局数据的变量名
+define('V_GLOBAL_NAME', "__GG");
+// 用于存储用户配置的全局变量名
+define('V_CFG_GLOBAL_NAME', "cfg");
+
 ?>
