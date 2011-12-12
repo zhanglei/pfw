@@ -13,4 +13,5 @@ require_once 'core.php';
 $GLOBALS[V_GLOBAL_NAME] = array();
 $GLOBALS[V_GLOBAL_NAME]['TPL'] = array();
 $GLOBALS[V_GLOBAL_NAME]['LANG'] = array();
+$GLOBALS[V_GLOBAL_NAME]['STATIC_STORE'] = array();
 ?>
