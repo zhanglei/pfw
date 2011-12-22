@@ -31,6 +31,16 @@ define('P_ROOT', dirname(__FILE__));
 define('P_FUNCTION', P_ROOT . "/function");
 // class		扩展文件的存放目录
 define('P_CLASS', P_ROOT . "/class");
+//系统模块文件的存放目录
+if (defined('ENTRY_SCRIPT_NAME') && ENTRY_SCRIPT_NAME == 'wap') {
+	define('P_MODULES', P_ROOT . "/controllers/wap");
+} else {
+	define('P_MODULES', P_ROOT . "/controllers");
+}
+// 系统模板文件的存放目录
+define('P_TEMPLATE', P_ROOT . "/../templates/default");
+// 系统语言文件的存放目录
+define('P_LANG', P_ROOT . "/languages");
 
 // 第三方库
 define('P_THIRDPARTY', P_ROOT . "/thirdparty");
@@ -85,4 +95,13 @@ define('V_GLOBAL_NAME', "__GG");
 // 用于存储用户配置的全局变量名
 define('V_CFG_GLOBAL_NAME', "cfg");
 
+// 模块路由的变量名 , 当 R_MODE 为 0 时 可用
+define('R_GET_VAR_NAME',		"m");
+// 系统默认的模块方法
+define('R_DEF_MOD_FUNC', "index");
+
+// 前置模块HOOK 前缀 ， ACTION_BEFORE_PREFIX+模块方法名 命名的成员方法 将在模块执行前 预先被执行
+define('ACTION_BEFORE_PREFIX',	"_before_");
+// 后置模块HOOK 前缀 ， ACTION_AFTER_PREFIX+模块方法名 命名的成员方法 将在模块执行完成后被执行
+define('ACTION_AFTER_PREFIX',	"_after_");
 ?>

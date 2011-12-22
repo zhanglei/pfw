@@ -16,8 +16,9 @@ class App {
 		if ($is_init) {
 			return true;
 		}
-		App::_initConfig();
+
 		App::_globalVar();
+		App::_initConfig();
 		App::_initRouteVar();
 
 		App::_initCheckMobile();
@@ -63,7 +64,7 @@ class App {
 	 * 初始化全局量 userConfig sysConfig session
 	 */
 	private static function _globalVar() {
-
+		$GLOBALS[V_CFG_GLOBAL_NAME] = array();
 	}
 
 	/// 解释路由模式为 rewrite 时的 GET 变量
@@ -71,11 +72,14 @@ class App {
 		if (defined('R_FORCE_MODE')) {
 			define('R_MODE', R_FORCE_MODE);
 		} else {
-			if (V('-:sysConfig/rewrite_enable', false)) {
-				define('R_MODE', 3);
-			} else {
-				define('R_MODE', 0);
-			}
+			/**
+			 if (V('-:sysConfig/rewrite_enable', false)) {
+			 define('R_MODE', 3);
+			 } else {
+			 define('R_MODE', 0);
+			 }
+			 */
+			define('R_MODE', 0);
 		}
 
 		if (!in_array(R_MODE, array(2, 3))) {
@@ -265,7 +269,6 @@ class App {
 			$v[$vRoute] = $def_v;
 			return true;
 		}
-
 		if (!isset($v[$vRoute])) {
 			$vKey = array('C' => $_COOKIE, 'G' => $_GET, 'P' => $_POST, 'R' => $_REQUEST, 'F' => $_FILES, 'S' => $_SERVER, 'E' => $_ENV, '-' => $GLOBALS[V_CFG_GLOBAL_NAME]);
 			if (empty($vKey['R'])) {
@@ -479,27 +482,29 @@ class App {
 		}
 
 		//检查缓存HOOK　HOOK方法将返回 array('K'=>'keystr'/*缓存KEY*/,'T'=>300/*缓存时间*/);
-		$cacheOptFunc = X_CACHE_HOOK_PREFIX . $r[3];
-		if (CTRL_CACHE_HOOK_ENABLE && method_exists($m, $cacheOptFunc)) {
-			$cacheOpt = $m -> $cacheOptFunc();
-			if ($cacheOpt === false || V('g:_no_xcache', false)) {
-				$cacheContent = false;
-			} else {
-				//检查返回
-				if (!is_array($cacheOpt) || !isset($cacheOpt['K']) || !isset($cacheOpt['T'])) {
-					F('err404', "Cache HOOK return data is Error, " . $r[1] . $r[2] . $cacheOptFunc);
-				}
-				$cacheContent = CACHE::get($cacheOpt['K']);
-			}
+		/**
+		 $cacheOptFunc = X_CACHE_HOOK_PREFIX . $r[3];
+		 if (CTRL_CACHE_HOOK_ENABLE && method_exists($m, $cacheOptFunc)) {
+		 $cacheOpt = $m -> $cacheOptFunc();
+		 if ($cacheOpt === false || V('g:_no_xcache', false)) {
+		 $cacheContent = false;
+		 } else {
+		 //检查返回
+		 if (!is_array($cacheOpt) || !isset($cacheOpt['K']) || !isset($cacheOpt['T'])) {
+		 F('err404', "Cache HOOK return data is Error, " . $r[1] . $r[2] . $cacheOptFunc);
+		 }
+		 $cacheContent = CACHE::get($cacheOpt['K']);
+		 }
 
-			if ($cacheContent) {
-				echo $cacheContent;
-				exit ;
-			} else {
-				App::xcacheOpt($cacheOpt);
-				register_shutdown_function(array('App', 'xcache'));
-			}
-		}
+		 if ($cacheContent) {
+		 echo $cacheContent;
+		 exit ;
+		 } else {
+		 App::xcacheOpt($cacheOpt);
+		 register_shutdown_function(array('App', 'xcache'));
+		 }
+		 }
+		 */
 		//-------
 
 		if (!method_exists($m, $r[3])) {
@@ -939,7 +944,7 @@ class App {
 		}
 
 		// 正常一般时运行，例如安装程序、后台等
-		$f = array('tpl' => P_TEMPLATE . "/" . $tpldir . $fp . EXT_TPL, 'cls' => P_CLASS . "/" . $fp . EXT_CLASS, 'pls' => P_PLS . "/" . $fp . EXT_PLS, 'mod' => P_MODULES . "/" . $fp . EXT_MODULES, 'func' => P_FUNCTION . "/" . $fp . EXT_FUNCTION, 'com' => P_COMS . "/" . $fp . EXT_COM, 'lang' => P_LANG . "/" . $langdir . "/" . $fp . EXT_LANG);
+		$f = array('tpl' => P_TEMPLATE . "/" . $tpldir . $fp . EXT_TPL, 'cls' => P_CLASS . "/" . $fp . EXT_CLASS, 'mod' => P_MODULES . "/" . $fp . EXT_MODULES, 'func' => P_FUNCTION . "/" . $fp . EXT_FUNCTION, 'lang' => P_LANG . "/" . $langdir . "/" . $fp . EXT_LANG);
 		///echo $f[$type];
 		if (!isset($f[$type])) {
 			trigger_error("file type: [ $type  ] is  invalid ", E_USER_ERROR);
@@ -1150,5 +1155,11 @@ function URL($mRoute, $qData = false, $entry = false) {
 function WAP_URL($mRoute, $qData = false, $entry = false) {
 	$url = App::mkModuleUrl($mRoute, $qData, $entry);
 	return htmlspecialchars($url, ENT_QUOTES);
+}
+
+/**
+ * 程序退出时，写日志
+ */
+function SHUTDOWN_LOGRUN() {
 }
 ?>
