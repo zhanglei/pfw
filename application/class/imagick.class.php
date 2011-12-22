@@ -6,7 +6,7 @@
  * @version 1.0
  * Created at:  2011-12-09
  */
-class  Imagick {
+class Imagick {
 
 	/**
 	 * 构造函数
