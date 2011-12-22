@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('XWEIBO_ACCESS')) {
+if (!defined('PFW_ACCESS')) {
 	die('NOT ACCESS');
 }
 
