@@ -43,7 +43,7 @@ define('P_TEMPLATE', P_ROOT . "/../templates/default");
 define('P_LANG', P_ROOT . "/languages");
 
 // 第三方库
-define('P_THIRDPARTY', P_ROOT . "/thirdparty");
+define('P_THIRDPARTY', P_ROOT . "/third-party");
 // adodb库存放目录
 define('P_THIRDPARTY_ADODB', P_THIRDPARTY . "/adodb");
 // phpexcel库存放目录

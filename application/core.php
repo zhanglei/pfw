@@ -1162,4 +1162,47 @@ function WAP_URL($mRoute, $qData = false, $entry = false) {
  */
 function SHUTDOWN_LOGRUN() {
 }
+
+class Tpl {
+
+	private static $smarty = null;
+
+	/**
+	 * 构造函数
+	 */
+	public function __construct() {
+		require_once P_THIRDPARTY_SMARTY.'/libs/Smarty.class.php';
+		$smarty = new Smarty();
+	}
+
+	/**
+	 * TPL::assign($k,$v=null);
+	 * 给模板变量赋值，类似SMARTY
+	 * 使用实例：
+	 * TPL::assign('var_name1','var'); 在模板中可以使用  $var_name1 变量
+	 * TPL::assign(array('var_name2'=>'var')); 在模板中可以使用  $var_name2 变量
+	 * @param $k	当  $k 为字串时 在模板中 可使用以 $k 命名的变量 其值 为 $v
+	 * 				当  $k 为关联数组时 在模板中可以使用 $k 的所有索引为变量名的变量
+	 * @param $v	当  $k 为字符串时 其值 即为 模板中 以  $k 为名的变量的值
+	 * @return 无返回值
+	 */
+	public static function assign($k, $v = null) {
+		$smarty->assign($k,$v);
+	}
+
+	/**
+	 * TPL::display($_tpl, $_langs=array(), $_ttl=0, $_baseSkin=true);
+	 * 显示一个模板
+	 * @param $_tpl		模板路由
+	 * @param $_langs	语言包，可以是半角逗号隔开的列表，也可以是数组
+	 * @param $_ttl		缓存时间 单位秒 （ 未实现 ）
+	 * @param $_baseSkin	模板基准目录选项，默认为 true ，将使用系统配置的皮肤目录
+	 * @param $_isPipe		是否使用PIPE
+	 * @return 无返回值
+	 */
+	public static function display($_tpl, $_langs = array(), $_ttl = 0, $_baseSkin = true, $_isPipe = true) {
+
+	}
+
+}
 ?>
