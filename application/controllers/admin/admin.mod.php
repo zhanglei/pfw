@@ -18,14 +18,14 @@ class admin_mod {
 	 * 首页
 	 */
 	public function index() {
-
+		Tpl::display('admin/index');
 	}
 
 	/**
 	 * 用户登录
 	 */
 	public function login() {
-
+		Tpl::display('admin/login');
 	}
 
 	public function logout() {
