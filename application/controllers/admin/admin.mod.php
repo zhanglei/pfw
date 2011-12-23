@@ -21,5 +21,13 @@ class admin_mod {
 		
 	}
 	
+	public function login(){
+		
+	}
+	
+	public function logout(){
+		
+	}
+	
 } 
 ?>
