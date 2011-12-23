@@ -39,6 +39,7 @@ if (defined('ENTRY_SCRIPT_NAME') && ENTRY_SCRIPT_NAME == 'wap') {
 }
 // 系统模板文件的存放目录
 define('P_TEMPLATE', P_ROOT . "/../templates/default");
+define('P_TEMPLATE_C', P_ROOT . "/../templates/templates_c");
 // 系统语言文件的存放目录
 define('P_LANG', P_ROOT . "/languages");
 

@@ -1171,12 +1171,14 @@ class Tpl {
 	 * 构造函数
 	 */
 	public function __construct() {
-		require_once P_THIRDPARTY_SMARTY.'/libs/Smarty.class.php';
+		require_once P_THIRDPARTY_SMARTY . '/libs/Smarty.class.php';
 		$smarty = new Smarty();
+		$smarty -> template_dir = P_TEMPLATE;
+		$smarty -> compile_dir = P_TEMPLATE_C;
 	}
 
 	/**
-	 * TPL::assign($k,$v=null);
+	 * Tpl::assign($k,$v=null);
 	 * 给模板变量赋值，类似SMARTY
 	 * 使用实例：
 	 * TPL::assign('var_name1','var'); 在模板中可以使用  $var_name1 变量
@@ -1187,21 +1189,17 @@ class Tpl {
 	 * @return 无返回值
 	 */
 	public static function assign($k, $v = null) {
-		$smarty->assign($k,$v);
+		$smarty -> assign($k, $v);
 	}
 
 	/**
-	 * TPL::display($_tpl, $_langs=array(), $_ttl=0, $_baseSkin=true);
+	 * Tpl::display($_tpl, $_langs=array(), $_ttl=0, $_baseSkin=true);
 	 * 显示一个模板
 	 * @param $_tpl		模板路由
-	 * @param $_langs	语言包，可以是半角逗号隔开的列表，也可以是数组
-	 * @param $_ttl		缓存时间 单位秒 （ 未实现 ）
-	 * @param $_baseSkin	模板基准目录选项，默认为 true ，将使用系统配置的皮肤目录
-	 * @param $_isPipe		是否使用PIPE
 	 * @return 无返回值
 	 */
-	public static function display($_tpl, $_langs = array(), $_ttl = 0, $_baseSkin = true, $_isPipe = true) {
-
+	public static function display($_tpl) {
+		$smarty -> display($_tpl . EXT_TPL);
 	}
 
 }
