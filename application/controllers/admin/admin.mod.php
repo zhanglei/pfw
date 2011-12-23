@@ -6,28 +6,31 @@
  * Created at:  2011-12-09
  */
 class admin_mod {
-	
+
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
 
 	}
-	
+
 	/**
 	 * 首页
 	 */
 	public function index() {
-		
+
 	}
-	
-	public function login(){
-		
+
+	/**
+	 * 用户登录
+	 */
+	public function login() {
+
 	}
-	
-	public function logout(){
-		
+
+	public function logout() {
+
 	}
-	
-} 
+
+}
 ?>
