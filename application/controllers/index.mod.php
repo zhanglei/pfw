@@ -18,7 +18,7 @@ class index_mod {
 	 * 首页
 	 */
 	public function index() {
-		
+		Tpl::display('index');
 	}
 	
 } 
