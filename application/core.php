@@ -519,7 +519,8 @@ class App {
 		}
 
 		/// call action
-		if ($r[3] != $r[2]) { $m -> $r[3]();
+		if (!empty($r[3])) {
+			 $m -> $r[3]();
 		}
 
 		/// after hook
