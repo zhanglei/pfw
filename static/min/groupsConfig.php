@@ -14,6 +14,6 @@
 return array(
     // '' => array('//js/file1.js', '//js/file2.js'),
     // 'css' => array('//css/file1.css', '//css/file2.css'),	
-	'global_css' => array('//static/css/reset.css','//static/css/base.css','//static/css/global.css'),
-	'global_js' => array(),
+	'global_css' => array('//static/css/reset.css','//static/css/base.css','//static/css/global.css','//static/css/metacss.css'),
+	'global_js' => array(''),
 );
