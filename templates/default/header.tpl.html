@@ -3,8 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <title>Sample page</title>
-<link rel="stylesheet" href="{$g_site_url}/static/css_example_url" />
-<script src="{$g_site_url}/static/js_example_url"></script>
+<link rel="stylesheet" href="{$g_site_url}/static/min/?g=global_css" />
+<script src="{$g_site_url}/static/min/?g=global_js"></script>
+<script>
+	var g_site_url = '{$g_site_url}';
+</script>
 </head>
 <body>
 
