@@ -39,7 +39,7 @@ if (defined('ENTRY_SCRIPT_NAME') && ENTRY_SCRIPT_NAME == 'wap') {
 }
 // 系统模板文件的存放目录
 define('P_TEMPLATE', P_ROOT . "/../templates/default");
-define('P_TEMPLATE_C', P_ROOT . "/../templates/templates_c");
+
 // 系统语言文件的存放目录
 define('P_LANG', P_ROOT . "/languages");
 
@@ -74,6 +74,8 @@ define('P_VAR_BACKUP', P_VAR . '/backup');
 define('P_VAR_BACKUP_SQL', P_VAR_BACKUP . '/sql');
 // 用于组合URL 的 VAR 路径
 define('P_URL_UPLOAD', P_VAR_NAME . "/upload");
+
+define('P_TEMPLATE_C', P_VAR_CACHE . "/templates_c");
 
 // 扩展函数文件扩展名
 define('EXT_FUNCTION', ".func.php");
