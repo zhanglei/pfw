@@ -97,7 +97,7 @@ define('V_GLOBAL_NAME', "__GG");
 define('V_CFG_GLOBAL_NAME', "cfg");
 
 // 模块路由的变量名 , 当 R_MODE 为 0 时 可用
-define('R_GET_VAR_NAME',		"m");
+define('R_GET_VAR_NAME',		"mod");
 // 系统默认的模块方法
 define('R_DEF_MOD_FUNC', "index");
 
