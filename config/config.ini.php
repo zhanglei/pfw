@@ -65,7 +65,4 @@ $database = array(
 			)
 		) 
 	);
-
-//smarty模块配置
-$smarty = array('smarty_dir' => '', 'smarty_template_dir' => '', 'smarty_compile_dir' => '');
 ?>
