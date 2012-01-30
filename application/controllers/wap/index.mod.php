@@ -5,7 +5,7 @@
  * @version
  * Created at:  2011-12-09
  */
-class index_mod {
+class index_mod extends base_mod{
 	
 	/**
 	 * 构造函数
