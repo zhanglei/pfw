@@ -520,7 +520,7 @@ class App {
 
 		/// call action
 		if (!empty($r[3])) {
-			 $m -> $r[3]();
+			$m -> $r[3]();
 		}
 
 		/// after hook
@@ -1201,6 +1201,32 @@ class Tpl {
 	 */
 	public static function display($_tpl) {
 		$smarty -> display($_tpl . EXT_TPL);
+	}
+
+}
+
+class Lang {
+
+}
+
+/**
+ *
+ */
+class base_mod {
+
+	/**
+	 * 构造函数
+	 */
+	public function __construct() {
+
+	}
+
+	public function _before_() {
+
+	}
+
+	public function _after_() {
+
 	}
 
 }
