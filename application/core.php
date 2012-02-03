@@ -1206,13 +1206,19 @@ class Tpl {
 }
 
 class Lang {
+	/**
+	 * 构造函数
+	 */
+	public function __construct() {
+
+	}
 
 }
 
 /**
  *
  */
-class base_mod {
+class BaseMod {
 
 	/**
 	 * 构造函数
