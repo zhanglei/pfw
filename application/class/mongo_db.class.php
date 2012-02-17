@@ -17,6 +17,8 @@ class mongo_db {
 	private $offset = NULL;
 	private $sort = array();
 
+	public $error = '';
+
 	/* Constuct function
 	 *
 	 * Checks that the Mongo PECL library is installed and enabled
@@ -26,7 +28,7 @@ class mongo_db {
 	{
 		if(!class_exists('Mongo'))
 		{
-			show_error('It looks like the MongoDB PECL extension isn\'t installed or enabled');
+			throw new Exception('It looks like the MongoDB PECL extension isn\'t installed or enabled');
 			return;
 		}
 
@@ -49,7 +51,7 @@ class mongo_db {
 
 		if($host == "" || $port == "")
 		{
-			show_error('No host or port configured to connect to MongoDB');
+			throw new Exception('No host or port configured to connect to MongoDB');
 			return;	
 		}
 
@@ -68,7 +70,7 @@ class mongo_db {
 		}
 		catch(MongoConnectionException $e)
 		{
-			show_error($e->getMessage());
+			$this -> error = $e -> getMessage();
 		}
 
 		if(!empty($db))
@@ -77,7 +79,7 @@ class mongo_db {
 		}
 		else
 		{
-			show_error('No Mongo database selected');
+			throw new Exception('No Mongo database selected');
 		}
 
 		return $this;
@@ -94,7 +96,7 @@ class mongo_db {
 		$database = trim($database);
 		if(empty($database))
 		{
-			show_error('Failed to switch to a different MongoDB database because name is empty');
+			throw new Exception('Failed to switch to a different MongoDB database because name is empty');
 		}
 
 		else
@@ -356,7 +358,7 @@ class mongo_db {
 
 		else
 		{
-			show_error('No Mongo collection selected to query');
+			throw new Exception('No Mongo collection selected to query');
 		}	
 	}
 
@@ -392,7 +394,7 @@ class mongo_db {
 		else
 		{
 			$this->_clear();
-			show_error('No Mongo collection selected');
+			throw new Exception('No Mongo collection selected');
 		}
 	}
 
@@ -408,12 +410,12 @@ class mongo_db {
 	{
 		if($collection == "")
 		{
-			show_error("No Mongo collection selected to insert into");
+			throw new Exception("No Mongo collection selected to insert into");
 		}
 
 		if(count($insert) == 0 || !is_array($insert))
 		{
-			show_error("Nothing to insert into Mongo collection or insert is not an array");
+			throw new Exception("Nothing to insert into Mongo collection or insert is not an array");
 		}
 
 		return $this->connection->{$this->db}->{$collection}->insert($insert);
@@ -431,12 +433,12 @@ class mongo_db {
 	{
 		if($collection == "")
 		{
-			show_error("No Mongo collection selected to insert into");
+			throw new Exception("No Mongo collection selected to insert into");
 		}
 
 		if(count($update) == 0 || !is_array($update))
 		{
-			show_error("Nothing to update in Mongo collection or update is not an array");
+			throw new Exception("Nothing to update in Mongo collection or update is not an array");
 		}
 
 		$update_result = $this->connection->{$this->db}->{$collection}->update($this->where, array('$set' => $update));
@@ -454,12 +456,12 @@ class mongo_db {
 	{
 		if($collection == "")
 		{
-			show_error("No Mongo collection selected to insert into");
+			throw new Exception("No Mongo collection selected to insert into");
 		}
 
 		if(count($update) == 0 || !is_array($update))
 		{
-			show_error("Nothing to update in Mongo collection or update is not an array");
+			throw new Exception("Nothing to update in Mongo collection or update is not an array");
 		}
 
 		$update_result = $this->connection->{$this->db}->{$collection}->update($this->where, array('$set' => $update), array('multiple'=>TRUE));
@@ -479,12 +481,12 @@ class mongo_db {
 	{
 		if($collection == "")
 		{
-			show_error("No Mongo collection selected to insert into");
+			throw new Exception("No Mongo collection selected to insert into");
 		}
 
 		if(count($delete) == 0 || !is_array($delete))
 		{
-			show_error("Nothing to delete from Mongo collection or delete is not an array");
+			throw new Exception("Nothing to delete from Mongo collection or delete is not an array");
 		}
 
 		if(isset($delete["_id"]))
@@ -508,12 +510,12 @@ class mongo_db {
 	{
 		if($collection == "")
 		{
-			show_error("No Mongo collection selected to insert into");
+			throw new Exception("No Mongo collection selected to insert into");
 		}
 
 		if(count($delete) == 0 || !is_array($delete))
 		{
-			show_error("Nothing to delete from Mongo collection or delete is not an array");
+			throw new Exception("Nothing to delete from Mongo collection or delete is not an array");
 		}
 
 		if(isset($delete["_id"]))
