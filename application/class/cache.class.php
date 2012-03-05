@@ -6,37 +6,54 @@
  * @version 1.0
  * Created at:  2011-12-09
  */
-abstract class Cache {
+interface Cache {
 
 	/**
-	 * 构造函数
-	 */
-	public function __construct() {
-
-	}
-	
-	/**
-	 * @param string $key 
+	 * @param string $key
 	 * @return bool
 	 */
-	public abstract function get($key);
+	public function get($key);
 
 	/**
 	 * @param string $key
 	 * @param string $value
+	 * @return bool
 	 */
-	public abstract function set($key, $value);
+	public function set($key, $value);
+
+}
+
+class CacheException extends Exception {
 
 }
 
 /**
  * memcached缓存
  */
-class MemcacheCache extends Cache {
+class MemcacheCache implements Cache {
+
 	/**
-	 * 构造函数
+	 * contructor
+	 * void
 	 */
 	public function __construct() {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function get($key) {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return bool
+	 */
+	public function set($key, $value) {
 
 	}
 
@@ -45,11 +62,29 @@ class MemcacheCache extends Cache {
 /**
  * xcache缓存
  */
-class Xcache extends Cache {
+class Xcache implements Cache {
 	/**
-	 * 构造函数
+	 * contructor
+	 * void
 	 */
 	public function __construct() {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function get($key) {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return bool
+	 */
+	public function set($key, $value) {
 
 	}
 
@@ -58,14 +93,62 @@ class Xcache extends Cache {
 /**
  * 文件序列化缓存
  */
-class SerializeCache extends Cache {
+class SerializeCache implements Cache {
+	/**
+	 * contructor
+	 * void
+	 */
+	public function __construct() {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function get($key) {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return bool
+	 */
+	public function set($key, $value) {
+
+	}
 
 }
 
 /**
  * 文件缓存
  */
-class FileCache extends Cache {
+class FileCache implements Cache {
+	/**
+	 * contructor
+	 * void
+	 */
+	public function __construct() {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function get($key) {
+
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return bool
+	 */
+	public function set($key, $value) {
+
+	}
 
 }
 ?>
