@@ -37,35 +37,22 @@ $config['base_url'] = '';
 $config['charset'] = 'UTF-8';
 
 //数据库配置
-$database = array(
-	'db_type' => 'mysql', 
+$database = array();
+$database['db_type'] = 'mysql';
+$database['db_table_prefix'] = 'pf_';
+$database['db_charset'] = 'utf8';
+$database['master'][] = array(
+	'db_host' => '127.0.0.1', 
+	'db_user' => 'root', 
+	'db_password' => '123456', 
+	'db_port' => '3306', 
+	'db_name' => 'pfw',
+);
+$database['slave'][] = array(
 	'db_host' => '127.0.0.1', 
 	'db_user' => 'root', 
 	'db_password' => '123456', 
 	'db_port' => '3306', 
 	'db_name' => 'pfw', 
-	'db_table_prefix' => 'pf_', 
-	'db_charset' => 'utf8',
-	'slaves' => array( 
-		array(
-			'db_host' => '127.0.0.1', 
-			'db_user' => 'root', 
-			'db_password' => '123456', 
-			'db_port' => '3306', 
-			'db_name' => 'pfw', 
-			'db_table_prefix' => 'pf_'
-			), 
-		array(
-			'db_host' => '127.0.0.1', 
-			'db_user' => 'root', 
-			'db_password' => '123456', 
-			'db_port' => '3306', 
-			'db_name' => 'pfw', 
-			'db_table_prefix' => 'pf_'
-			)
-		) 
-	);
-$shards = array(
-	
-);	
+);
 ?>
