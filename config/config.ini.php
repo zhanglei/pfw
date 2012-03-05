@@ -7,7 +7,7 @@
  */
 
 //定义框架版本
-define('PFW_VERSION', '0.0.1');
+define('VERSION', '0.0.1');
 
 /// 默认时区
 define('APP_TIMEZONE_OFFSET', 8);
@@ -65,4 +65,7 @@ $database = array(
 			)
 		) 
 	);
+$shards = array(
+	
+);	
 ?>

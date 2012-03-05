@@ -12,8 +12,8 @@ class DbShard {
 	 * contructor
 	 * @return void
 	 */
-	public function __construct() {
-
+	public function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
+		
 	}
 }
 ?>
