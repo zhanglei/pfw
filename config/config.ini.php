@@ -37,22 +37,23 @@ $config['base_url'] = '';
 $config['charset'] = 'UTF-8';
 
 //数据库配置
-$database = array();
-$database['db_type'] = 'mysql';
-$database['db_table_prefix'] = 'pf_';
-$database['db_charset'] = 'utf8';
-$database['master'][] = array(
-	'db_host' => '127.0.0.1', 
-	'db_user' => 'root', 
-	'db_password' => '123456', 
-	'db_port' => '3306', 
-	'db_name' => 'pfw',
+$dbConfig = array();
+$dbConfig['adapter'] = 'mysql';
+$dbConfig['table_prefix'] = 'pf_';
+$dbConfig['charset'] = 'utf8';
+$dbConfig['persitent'] = false;
+$dbConfig['master'][] = array(
+	'dbhost' => '127.0.0.1', 
+	'dbuser' => 'root', 
+	'dbpasswd' => '123456', 
+	'dbport' => '3306', 
+	'dbname' => 'pfw',
 );
-$database['slave'][] = array(
-	'db_host' => '127.0.0.1', 
-	'db_user' => 'root', 
-	'db_password' => '123456', 
-	'db_port' => '3306', 
-	'db_name' => 'pfw', 
+$dbConfig['slave'][] = array(
+	'dbhost' => '127.0.0.1', 
+	'dbuser' => 'root', 
+	'dbpasswd' => '123456', 
+	'dbport' => '3306', 
+	'dbname' => 'pfw',
 );
 ?>
