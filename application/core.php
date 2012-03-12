@@ -1218,7 +1218,13 @@ class Lang {
 /**
  *
  */
-class BaseMod {
+class AppController {
+
+	public $params;
+
+	public $autoroute = TRUE;
+
+	public $autorender = FALSE;
 
 	/**
 	 * 构造函数
@@ -1234,6 +1240,154 @@ class BaseMod {
 	public function _after_() {
 
 	}
+
+	public function isAjax() {
+
+	}
+
+	public function toJSON($result, $output=false, $removeNullField=false, $exceptField=null, $mustRemoveFieldList=null, $setJSONContentType=true, $encoding='utf-8'){
+        $rs = preg_replace(array('/\,\"\_table\"\:\".*\"/U', '/\,\"\_primarykey\"\:\".*\"/U', '/\,\"\_fields\"\:\[\".*\"\]/U'), '', json_encode($result));
+        if($removeNullField){
+            if($exceptField===null)
+                $rs = preg_replace(array('/\,\"[^\"]+\"\:null/U', '/\{\"[^\"]+\"\:null\,/U'), array('','{'), $rs);
+            else{
+                $funca1 =  create_function('$matches',
+                            'if(in_array($matches[1], array(\''. implode("','",$exceptField) .'\'))===false){
+                                return "";
+                            }
+                            return $matches[0];');
+
+                $funca2 =  create_function('$matches',
+                            'if(in_array($matches[1], array(\''. implode("','",$exceptField) .'\'))===false){
+                                return "{";
+                            }
+                            return $matches[0];');
+
+                $rs = preg_replace_callback('/\,\"([^\"]+)\"\:null/U', $funca1, $rs);
+                $rs = preg_replace_callback('/\{\"([^\"]+)\"\:null\,/U', $funca2, $rs);
+            }
+        }
+
+        //remove fields in this array
+        if($mustRemoveFieldList!==null){
+            $funcb1 =  create_function('$matches',
+                        'if(in_array($matches[1], array(\''. implode("','",$mustRemoveFieldList) .'\'))){
+                            return "";
+                        }
+                        return $matches[0];');
+
+            $funcb2 =  create_function('$matches',
+                        'if(in_array($matches[1], array(\''. implode("','",$mustRemoveFieldList) .'\'))){
+                            return "{";
+                        }
+                        return $matches[0];');
+            
+            $rs = preg_replace_callback(array('/\,\"([^\"]+)\"\:\".*\"/U', '/\,\"([^\"]+)\"\:\{.*\}/U', '/\,\"([^\"]+)\"\:\[.*\]/U', '/\,\"([^\"]+)\"\:([false|true|0-9|\.\-|null]+)/'), $funcb1, $rs);
+
+            $rs = preg_replace_callback(array('/\{\"([^\"]+)\"\:\".*\"\,/U','/\{\"([^\"]+)\"\:\{.*\}\,/U'), $funcb2, $rs);
+
+            preg_match('/(.*)(\[\{.*)\"('. implode('|',$mustRemoveFieldList) .')\"\:\[(.*)/', $rs, $m);
+            
+            if($m){
+                if( $pos = strpos($m[4], '"}],"') ){
+                    if($pos2 = strpos($m[4], '"}]},{')){
+                        $d = substr($m[4], $pos2+5);
+                        if(substr($m[2],-1)==','){
+                            $m[2] = substr_replace($m[2], '},', -1);
+                        }                
+                    }
+                    else if(strpos($m[4], ']},{')!==false){
+                        $d = substr($m[4], strpos($m[4], ']},{')+3);  
+                        if(substr($m[2],-1)==','){
+                            $m[2] = substr_replace($m[2], '},', -1);
+                        }
+                    }
+                    else if(strpos($m[4], '],"')===0){
+                        $d = substr($m[4], strpos($m[4], '],"')+2);  
+                    }                    
+                    else if(strpos($m[4], '}],"')!==false){
+                        $d = substr($m[4], strpos($m[4], '],"')+2);  
+                    }
+                    else{
+                        $d = substr($m[4], $pos+4);
+                    }
+                }
+                else{
+                    $rs = preg_replace('/(\[\{.*)\"('. implode('|',$mustRemoveFieldList) .')\"\:\[.*\]\}(\,)?/U', '$1}', $rs);
+                    $rs = preg_replace('/(\".*\"\:\".*\")\,\}(\,)?/U', '$1}$2', $rs);
+                }
+
+                if(isset($d)){
+                    $rs = $m[1].$m[2].$d;
+                }
+            }
+        }
+        
+        if($output===true){
+			if($setJSONContentType===true)
+				$this->setContentType('json', $encoding);
+            echo $rs;
+		}
+        return $rs;
+    }
+
+	public function toXML($result, $output = false, $setXMLContentType = false, $encoding = 'utf-8') {
+		$str = '<?xml version="1.0" encoding="utf-8"?><result>';
+		foreach ($result as $kk => $vv) {
+			$cls = get_class($vv);
+			$str .= '<' . $cls . '>';
+			foreach ($vv as $k => $v) {
+				if ($k != '_table' && $k != '_fields' && $k != '_primarykey') {
+					if (is_array($v)) {
+						//print_r($v);
+						//exit;
+						$str .= '<' . $k . '>';
+						foreach ($v as $v0) {
+							$str .= '<data>';
+							foreach ($v0 as $k1 => $v1) {
+								if ($k1 != '_table' && $k1 != '_fields' && $k1 != '_primarykey') {
+									if (is_array($v1)) {
+										$str .= '<' . $k1 . '>';
+										foreach ($v1 as $v2) {
+											$str .= '<data>';
+											foreach ($v2 as $k3 => $v3) {
+												if ($k3 != '_table' && $k3 != '_fields' && $k3 != '_primarykey') {
+													$str .= '<' . $k3 . '><![CDATA[' . $v3 . ']]></' . $k3 . '>';
+												}
+											}
+											$str .= '</data>';
+										}
+										$str .= '</' . $k1 . '>';
+									} else {
+										$str .= '<' . $k1 . '><![CDATA[' . $v1 . ']]></' . $k1 . '>';
+									}
+								}
+							}
+							$str .= '</data>';
+						}
+						$str .= '</' . $k . '>';
+
+					} else {
+						$str .= '<' . $k . '>' . $v . '</' . $k . '>';
+					}
+				}
+			}
+			$str .= '</' . $cls . '>';
+		}
+		$str .= '</result>';
+		if ($setXMLContentType === true)
+			$this -> setContentType('xml', $encoding);
+		if ($output === true)
+			echo $str;
+		return $str;
+	}
+
+}
+
+/**
+ *
+ */
+class AppModel {
 
 }
 ?>
