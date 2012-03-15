@@ -1388,6 +1388,11 @@ class AppController {
  *
  */
 class AppModel {
+	/**
+	 * 构造函数
+	 */
+	public function __construct() {
 
+	}
 }
 ?>
