@@ -1218,7 +1218,7 @@ class Lang {
 /**
  *
  */
-class AppController {
+class BaseMod {
 
 	public $params;
 
