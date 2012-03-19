@@ -1104,16 +1104,37 @@ class App {
 	}
 
 	/**
-     * Load class
-     *
-     * @param string $className
-     * @param string $dir
-     * @return boolean
+     * Imports the definition of class(es) and tries to create an object/a list of objects of the class.
+     * @param string|array $class_name Name(s) of the class to be imported
+     * @param string $path Path to the class file
+     * @param bool $createObj Determined whether to create object(s) of the class
+     * @return mixed returns NULL by default. If $createObj is TRUE, it creates and return the Object of the class name passed in.
      */
-	public static function loadClass($className, $dir = ''){
+	protected static function load($class_name, $path, $createObj=FALSE){
+		
+	}
+
+	/**
+	 * Load class
+	 *
+	 * @param string $className
+	 * @param string $dir
+	 * @return boolean
+	 */
+	public static function loadClass($className, $dir = '') {
 		if (class_exists($className, false) || interface_exists($className, false)) {
-            return true;
-        }
+			return true;
+		}
+	}
+
+	/**
+	 * Imports the definition of Model class(es)
+	 * @param string|array $class_name Name(s) of the Model class to be imported
+	 * @param bool $createObj Determined whether to create object(s) of the class
+	 * @return mixed returns NULL by default. If $createObj is TRUE, it creates and return the Object(s) of the class name passed in.
+	 */
+	public static function loadModel($class_name, $createObj = FALSE) {
+
 	}
 
 }
@@ -1419,19 +1440,18 @@ class AppModel {
 	}
 
 	/**
-     * Dynamic get vars
-     *
-     * @param string $key
-     */
-    public function __get($key)
-    {
-        switch ($key) {
-            case 'db' :
-                return $this->db;
-            default:
-                throw new Exception('Undefined property: ' . get_class($this). '::' . $key);
-        }
-    }
+	 * Dynamic get vars
+	 *
+	 * @param string $key
+	 */
+	public function __get($key) {
+		switch ($key) {
+			case 'db' :
+				return $this -> db;
+			default :
+				throw new Exception('Undefined property: ' . get_class($this) . '::' . $key);
+		}
+	}
 
 }
 ?>
