@@ -1103,6 +1103,19 @@ class App {
 		}
 	}
 
+	/**
+     * Load class
+     *
+     * @param string $className
+     * @param string $dir
+     * @return boolean
+     */
+	public static function loadClass($className, $dir = ''){
+		if (class_exists($className, false) || interface_exists($className, false)) {
+            return true;
+        }
+	}
+
 }
 
 /**
@@ -1245,91 +1258,82 @@ class BaseMod {
 
 	}
 
-	public function toJSON($result, $output=false, $removeNullField=false, $exceptField=null, $mustRemoveFieldList=null, $setJSONContentType=true, $encoding='utf-8'){
-        $rs = preg_replace(array('/\,\"\_table\"\:\".*\"/U', '/\,\"\_primarykey\"\:\".*\"/U', '/\,\"\_fields\"\:\[\".*\"\]/U'), '', json_encode($result));
-        if($removeNullField){
-            if($exceptField===null)
-                $rs = preg_replace(array('/\,\"[^\"]+\"\:null/U', '/\{\"[^\"]+\"\:null\,/U'), array('','{'), $rs);
-            else{
-                $funca1 =  create_function('$matches',
-                            'if(in_array($matches[1], array(\''. implode("','",$exceptField) .'\'))===false){
+	public function toJSON($result, $output = false, $removeNullField = false, $exceptField = null, $mustRemoveFieldList = null, $setJSONContentType = true, $encoding = 'utf-8') {
+		$rs = preg_replace(array('/\,\"\_table\"\:\".*\"/U', '/\,\"\_primarykey\"\:\".*\"/U', '/\,\"\_fields\"\:\[\".*\"\]/U'), '', json_encode($result));
+		if ($removeNullField) {
+			if ($exceptField === null)
+				$rs = preg_replace(array('/\,\"[^\"]+\"\:null/U', '/\{\"[^\"]+\"\:null\,/U'), array('', '{'), $rs);
+			else {
+				$funca1 = create_function('$matches', 'if(in_array($matches[1], array(\'' . implode("','", $exceptField) . '\'))===false){
                                 return "";
                             }
                             return $matches[0];');
 
-                $funca2 =  create_function('$matches',
-                            'if(in_array($matches[1], array(\''. implode("','",$exceptField) .'\'))===false){
+				$funca2 = create_function('$matches', 'if(in_array($matches[1], array(\'' . implode("','", $exceptField) . '\'))===false){
                                 return "{";
                             }
                             return $matches[0];');
 
-                $rs = preg_replace_callback('/\,\"([^\"]+)\"\:null/U', $funca1, $rs);
-                $rs = preg_replace_callback('/\{\"([^\"]+)\"\:null\,/U', $funca2, $rs);
-            }
-        }
+				$rs = preg_replace_callback('/\,\"([^\"]+)\"\:null/U', $funca1, $rs);
+				$rs = preg_replace_callback('/\{\"([^\"]+)\"\:null\,/U', $funca2, $rs);
+			}
+		}
 
-        //remove fields in this array
-        if($mustRemoveFieldList!==null){
-            $funcb1 =  create_function('$matches',
-                        'if(in_array($matches[1], array(\''. implode("','",$mustRemoveFieldList) .'\'))){
+		//remove fields in this array
+		if ($mustRemoveFieldList !== null) {
+			$funcb1 = create_function('$matches', 'if(in_array($matches[1], array(\'' . implode("','", $mustRemoveFieldList) . '\'))){
                             return "";
                         }
                         return $matches[0];');
 
-            $funcb2 =  create_function('$matches',
-                        'if(in_array($matches[1], array(\''. implode("','",$mustRemoveFieldList) .'\'))){
+			$funcb2 = create_function('$matches', 'if(in_array($matches[1], array(\'' . implode("','", $mustRemoveFieldList) . '\'))){
                             return "{";
                         }
                         return $matches[0];');
-            
-            $rs = preg_replace_callback(array('/\,\"([^\"]+)\"\:\".*\"/U', '/\,\"([^\"]+)\"\:\{.*\}/U', '/\,\"([^\"]+)\"\:\[.*\]/U', '/\,\"([^\"]+)\"\:([false|true|0-9|\.\-|null]+)/'), $funcb1, $rs);
 
-            $rs = preg_replace_callback(array('/\{\"([^\"]+)\"\:\".*\"\,/U','/\{\"([^\"]+)\"\:\{.*\}\,/U'), $funcb2, $rs);
+			$rs = preg_replace_callback(array('/\,\"([^\"]+)\"\:\".*\"/U', '/\,\"([^\"]+)\"\:\{.*\}/U', '/\,\"([^\"]+)\"\:\[.*\]/U', '/\,\"([^\"]+)\"\:([false|true|0-9|\.\-|null]+)/'), $funcb1, $rs);
 
-            preg_match('/(.*)(\[\{.*)\"('. implode('|',$mustRemoveFieldList) .')\"\:\[(.*)/', $rs, $m);
-            
-            if($m){
-                if( $pos = strpos($m[4], '"}],"') ){
-                    if($pos2 = strpos($m[4], '"}]},{')){
-                        $d = substr($m[4], $pos2+5);
-                        if(substr($m[2],-1)==','){
-                            $m[2] = substr_replace($m[2], '},', -1);
-                        }                
-                    }
-                    else if(strpos($m[4], ']},{')!==false){
-                        $d = substr($m[4], strpos($m[4], ']},{')+3);  
-                        if(substr($m[2],-1)==','){
-                            $m[2] = substr_replace($m[2], '},', -1);
-                        }
-                    }
-                    else if(strpos($m[4], '],"')===0){
-                        $d = substr($m[4], strpos($m[4], '],"')+2);  
-                    }                    
-                    else if(strpos($m[4], '}],"')!==false){
-                        $d = substr($m[4], strpos($m[4], '],"')+2);  
-                    }
-                    else{
-                        $d = substr($m[4], $pos+4);
-                    }
-                }
-                else{
-                    $rs = preg_replace('/(\[\{.*)\"('. implode('|',$mustRemoveFieldList) .')\"\:\[.*\]\}(\,)?/U', '$1}', $rs);
-                    $rs = preg_replace('/(\".*\"\:\".*\")\,\}(\,)?/U', '$1}$2', $rs);
-                }
+			$rs = preg_replace_callback(array('/\{\"([^\"]+)\"\:\".*\"\,/U', '/\{\"([^\"]+)\"\:\{.*\}\,/U'), $funcb2, $rs);
 
-                if(isset($d)){
-                    $rs = $m[1].$m[2].$d;
-                }
-            }
-        }
-        
-        if($output===true){
-			if($setJSONContentType===true)
-				$this->setContentType('json', $encoding);
-            echo $rs;
+			preg_match('/(.*)(\[\{.*)\"(' . implode('|', $mustRemoveFieldList) . ')\"\:\[(.*)/', $rs, $m);
+
+			if ($m) {
+				if ($pos = strpos($m[4], '"}],"')) {
+					if ($pos2 = strpos($m[4], '"}]},{')) {
+						$d = substr($m[4], $pos2 + 5);
+						if (substr($m[2], -1) == ',') {
+							$m[2] = substr_replace($m[2], '},', -1);
+						}
+					} else if (strpos($m[4], ']},{') !== false) {
+						$d = substr($m[4], strpos($m[4], ']},{') + 3);
+						if (substr($m[2], -1) == ',') {
+							$m[2] = substr_replace($m[2], '},', -1);
+						}
+					} else if (strpos($m[4], '],"') === 0) {
+						$d = substr($m[4], strpos($m[4], '],"') + 2);
+					} else if (strpos($m[4], '}],"') !== false) {
+						$d = substr($m[4], strpos($m[4], '],"') + 2);
+					} else {
+						$d = substr($m[4], $pos + 4);
+					}
+				} else {
+					$rs = preg_replace('/(\[\{.*)\"(' . implode('|', $mustRemoveFieldList) . ')\"\:\[.*\]\}(\,)?/U', '$1}', $rs);
+					$rs = preg_replace('/(\".*\"\:\".*\")\,\}(\,)?/U', '$1}$2', $rs);
+				}
+
+				if (isset($d)) {
+					$rs = $m[1] . $m[2] . $d;
+				}
+			}
 		}
-        return $rs;
-    }
+
+		if ($output === true) {
+			if ($setJSONContentType === true)
+				$this -> setContentType('json', $encoding);
+			echo $rs;
+		}
+		return $rs;
+	}
 
 	public function toXML($result, $output = false, $setXMLContentType = false, $encoding = 'utf-8') {
 		$str = '<?xml version="1.0" encoding="utf-8"?><result>';
@@ -1388,11 +1392,46 @@ class BaseMod {
  *
  */
 class AppModel {
+
+	protected $_db = '_db';
+
+	protected $_table;
+
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
 
 	}
+
+	public function find() {
+
+	}
+
+	/**
+	 * Dynamic set vars
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function __set($key, $value = null) {
+		$this -> $key = $value;
+	}
+
+	/**
+     * Dynamic get vars
+     *
+     * @param string $key
+     */
+    public function __get($key)
+    {
+        switch ($key) {
+            case 'db' :
+                return $this->db;
+            default:
+                throw new Exception('Undefined property: ' . get_class($this). '::' . $key);
+        }
+    }
+
 }
 ?>
