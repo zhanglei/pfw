@@ -169,7 +169,7 @@ function array_sort($array, $on, $order = SORT_ASC) {
 }
 
 /**
- * 分库算法 
+ * 简单分库算法 
  */
 function calc_hash_db($u, $s = 4)
 {
@@ -179,7 +179,7 @@ function calc_hash_db($u, $s = 4)
 }
 
 /**
- * 分表算法
+ * 简单分表算法
  */
 function calc_hash_tbl($u, $n = 16, $m = 16)
 {
