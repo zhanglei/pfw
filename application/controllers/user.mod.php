@@ -1,6 +1,6 @@
 <?php
 /**
- * 登陆控制器入口
+ * 用户控制器
  * @author qingmu
  * @version
  * Created at:  2011-12-09
