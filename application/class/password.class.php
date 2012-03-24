@@ -54,7 +54,7 @@ class password{
 				'lower_case'		=> true,
 				'upper_case'		=> true,
 				'digits'			=> true,
-				'special'			=> false
+				'special'			=> s
 			);
 	private $work_range		= array();
 	private $range			= array();
