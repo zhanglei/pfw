@@ -1198,6 +1198,17 @@ function WAP_URL($mRoute, $qData = false, $entry = false) {
 function SHUTDOWN_LOGRUN() {
 }
 
+/**
+ * 常量定义
+ */
+class Constants {
+	
+	private function __construct() {
+		
+	}
+}
+
+
 class Tpl {
 
 	private static $smarty = null;
