@@ -1104,14 +1104,14 @@ class App {
 	}
 
 	/**
-     * Imports the definition of class(es) and tries to create an object/a list of objects of the class.
-     * @param string|array $class_name Name(s) of the class to be imported
-     * @param string $path Path to the class file
-     * @param bool $createObj Determined whether to create object(s) of the class
-     * @return mixed returns NULL by default. If $createObj is TRUE, it creates and return the Object of the class name passed in.
-     */
-	protected static function load($class_name, $path, $createObj=FALSE){
-		
+	 * Imports the definition of class(es) and tries to create an object/a list of objects of the class.
+	 * @param string|array $class_name Name(s) of the class to be imported
+	 * @param string $path Path to the class file
+	 * @param bool $createObj Determined whether to create object(s) of the class
+	 * @return mixed returns NULL by default. If $createObj is TRUE, it creates and return the Object of the class name passed in.
+	 */
+	protected static function load($class_name, $path, $createObj = FALSE) {
+
 	}
 
 	/**
@@ -1202,12 +1202,12 @@ function SHUTDOWN_LOGRUN() {
  * 常量定义
  */
 class Constants {
-	
-	private function __construct() {
-		
-	}
-}
 
+	private function __construct() {
+
+	}
+
+}
 
 class Tpl {
 
@@ -1265,17 +1265,48 @@ class Lang {
  */
 class BaseMod {
 
-	public $params;
+	protected $params;
 
-	public $autoroute = TRUE;
+	protected $autoroute = TRUE;
 
-	public $autorender = FALSE;
+	protected $autorender = FALSE;
+
+	/**
+	 * The home directory of model
+	 *
+	 * @var string
+	 */
+	protected $_modelsName = null;
+
+	/**
+	 * Form keys
+	 *
+	 * @var array
+	 */
+	protected $_keys = array();
+
+	/**
+	 * Error
+	 *
+	 * @var array
+	 */
+	protected $_error;
 
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
 
+	}
+
+	/**
+	 * Magic method
+	 *
+	 * @param string $methodName
+	 * @param array $args
+	 */
+	public function __call($methodName, $args) {
+		throw new Exception("Call to undefined method:$methodName()");
 	}
 
 	public function _before_() {
@@ -1285,6 +1316,57 @@ class BaseMod {
 	public function _after_() {
 
 	}
+
+	/**
+     * Instantiated model
+     *
+     * @param string $name
+     * @param string $dir
+     * @return Model
+     */
+    protected function model($name = null, $dir = null){
+    	
+    }
+
+	/**
+     * Post var
+     *
+     * @param string $key
+     * @param mixed $default
+     */
+    protected function post($key = null, $default = null){
+    	
+    }
+
+	/**
+     * Get var
+     *
+     * @param string $key
+     * @param mixed $default
+     */
+    protected function get($key = null, $default = null){
+    	
+    }
+	
+	/**
+     * Get data from form
+     *
+     * @param array $keys
+     * @param string $method
+     * @return array
+     */
+	protected function form($keys = null, $method = 'post'){
+		 $data = array();
+	}
+	
+	/**
+     * Redirect to other url
+     *
+     * @param string $url
+     */
+    protected function redirect($url, $code = 302){
+    	
+    }
 
 	public function isAjax() {
 
