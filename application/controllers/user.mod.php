@@ -5,7 +5,7 @@
  * @version
  * Created at:  2011-12-09
  */
-class user_mod extends BaseMod{
+class user_mod extends CoreMod{
 	
 	/**
 	 * 构造函数

@@ -1263,7 +1263,7 @@ class Lang {
 /**
  *
  */
-class BaseMod {
+class CoreMod {
 
 	protected $params;
 
