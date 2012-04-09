@@ -5,35 +5,35 @@
  * @version
  * Created at:  2011-12-09
  */
-class user_mod extends CoreMod{
-	
+class user_mod extends CoreMod {
+
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
 
 	}
-	
-	/**
-	 * 
-	 */
-	public function login(){
-		
-	}
-	
-	/**
-	 * 
-	 */
-	public function logout(){
-		
-	}
-	
-	/**
-	 * 
-	 */
-	public function register(){
-		
-	}
-}
 
+	/**
+	 *
+	 */
+	public function login() {
+
+	}
+
+	/**
+	 *
+	 */
+	public function logout() {
+
+	}
+
+	/**
+	 *
+	 */
+	public function register() {
+
+	}
+
+}
 ?>
