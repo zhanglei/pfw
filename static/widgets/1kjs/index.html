@@ -1,0 +1,508 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>幻灯片组件demo</title>
+<link href="page.css" rel="stylesheet"/>
+<style>
+.hlcode li{font-size:12px;}
+</style>
+<script src="page.js?skin=bop"></script>
+</head>
+<body>
+<div id="doc">
+<div id="header">幻灯片组件demo</div>
+<div id="main">
+
+
+<h2>demo说明</h2>
+<p>下面列出各种demo的完整代码，使用者可以直接拷贝稍微改下参数即可！<br/>
+预览效果请鼠标右键点击代码运行或者查看 <a href="http://www.1kjs.com/lib/widget/slides/" target="_blank">组件详情页</a><br/>
+需保证你所看组件源码是最新的，请移步 <a href="http://www.1kjs.com/lib/widget/slides/" target="_blank">组件详情页</a>
+</p>
+<h2>透明度切换幻灯片示例</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+body{font-size:12px;}
+#slides1{position:relative;padding:6px;width:390px;height:304px;border:1px solid #ccc;line-height:2;}
+#slides1 .slides-title{position:absolute;top:227px;z-index:2;}
+#slides1 .slides-title p{display:none;position:absolute;width:390px;margin:0;padding:0;background:#000;color:#fff;text-indent:6px;opacity:0.6;filter:alpha(opacity=60);}
+#slides1 .slides-title p.focus{display:block;}
+#slides1 .slides-content{position:relative;height:245px;}
+#slides1 .slides-item{position:absolute;display:none;opacity:0;filter:alpha(opacity=0);}
+#slides1 .slides-item.focus{display:block;opacity:1;filter:alpha(opacity=100);}
+#slides1 .slides-content img{border:0;width:390px;height:245px;}
+#slides1 .slides-pagination{height:62px;_zoom:1;}
+#slides1 .slides-pagination span{cursor:pointer;float:left;margin:4px 2px;_margin-left:1px;padding:2px;border:1px solid #ccc;}
+#slides1 .slides-pagination span.focus{border-color:green;}
+#slides1 .slides-pagination img{display:block;width:68px;height:48px;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides1" class="slides">
+	<div class="slides-title">
+		<p class="focus">《福娃奥运漫游记》获动漫大赛最佳作品奖</p>
+		<p>超级插画设计 3D机器人与平面相结合</p>
+		<p>洁净舒适的XP桌面壁纸 轻松愉快的环境</p>
+		<p>室内装修三维设计 创造简洁舒适</p>
+		<p>世界上令人叹为观止的仿真的机器人</p>
+	</div>
+	<div class="slides-content">
+		<div class="slides-item focus"><a href="#"><img src="img/001.jpg"/></a></div>
+		<div class="slides-item"><a href="#"><img src="img/002.jpg"/></a></div>
+		<div class="slides-item"><a href="#"><img src="img/003.jpg"/></a></div>
+		<div class="slides-item"><a href="#"><img src="img/004.jpg"/></a></div>
+		<div class="slides-item"><a href="#"><img src="img/005.jpg"/></a></div>
+	</div>
+	<div class="slides-pagination">
+		<span class="focus"><img src="img/001.jpg"/></span>
+		<span><img src="img/002.jpg"/></span>
+		<span><img src="img/003.jpg"/></span>
+		<span><img src="img/004.jpg"/></span>
+		<span><img src="img/005.jpg"/></span>
+	</div>
+</div>
+<script>
+$1kjs.slides.opacity({
+	g:'#slides1',
+	autoPlay:2000
+});
+</script>
+</body>
+</textarea>
+
+
+
+<h2>左方向切换幻灯片示例</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides2{position:relative;padding:6px;width:390px;height:304px;border:1px solid #ccc;line-height:2;font-size:14px;}
+#slides2 .slides-title{position:absolute;top:223px;z-index:2;}
+#slides2 .slides-title p{display:none;position:absolute;width:390px;background:#000;padding:0;margin:0;color:#fff;text-indent:6px;opacity:0.6;filter:alpha(opacity=60);}
+#slides2 .slides-title p.focus{display:block;}
+#slides2 .slides-content{position:relative;_width:390px;height:245px;overflow:hidden;}
+#slides2 .slides-item{}
+#slides2 .slides-content img{border:0;width:390px;height:245px;}
+#slides2 .slides-pagination{height:62px;}
+#slides2 .slides-pagination span{cursor:pointer;float:left;margin:4px 2px;padding:2px;border:1px solid #ccc;_margin-left:1px;}
+#slides2 .slides-pagination span.focus{border-color:green;}
+#slides2 .slides-pagination img{display:block;width:68px;height:48px;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<div id="slides2" class="slides">
+	<div class="slides-title">
+		<p class="focus">《福娃奥运漫游记》获动漫大赛最佳作品奖</p>
+		<p>超级插画设计 3D机器人与平面相结合</p>
+		<p>洁净舒适的XP桌面壁纸 轻松愉快的环境</p>
+		<p>室内装修三维设计 创造简洁舒适</p>
+		<p>世界上令人叹为观止的仿真的机器人</p>
+	</div>
+	<div class="slides-content">
+		<div class="slides-wrap">
+			<div class="slides-item"><a href="#"><img src="img/001.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/002.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/003.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/004.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/005.jpg"/></a></div>
+		</div>
+	</div>
+	<div class="slides-pagination">
+		<span class="focus"><img src="img/001.jpg"/></span>
+		<span><img src="img/002.jpg"/></span>
+		<span><img src="img/003.jpg"/></span>
+		<span><img src="img/004.jpg"/></span>
+		<span><img src="img/005.jpg"/></span>
+	</div>
+</div>
+<script>
+$1kjs.slides.scroll({
+	g:'#slides2',
+	direction:'left',
+	autoPlay:2000
+});
+</script>
+</body>
+</textarea>
+
+
+<h2>上方向切换幻灯片示例</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides3{position:relative;padding:6px;width:390px;height:304px;border:1px solid #ccc;line-height:2;font-size:14px;}
+#slides3 .slides-title{position:absolute;top:223px;z-index:2;}
+#slides3 .slides-title p{display:none;position:absolute;width:390px;padding:0;margin:0;background:#000;color:#fff;text-indent:6px;opacity:0.6;filter:alpha(opacity=60);}
+#slides3 .slides-title p.focus{display:block;}
+#slides3 .slides-content{position:relative;height:245px;overflow:hidden;}
+#slides3 .slides-item{}
+#slides3 .slides-content img{border:0;width:390px;height:245px;}
+#slides3 .slides-pagination{height:62px;}
+#slides3 .slides-pagination span{cursor:pointer;float:left;margin:4px 2px;padding:2px;border:1px solid #ccc;_margin-left:1px;}
+#slides3 .slides-pagination span.focus{border-color:green;}
+#slides3 .slides-pagination img{display:block;width:68px;height:48px;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides3" class="slides">
+	<div class="slides-title">
+		<p class="focus">《福娃奥运漫游记》获动漫大赛最佳作品奖</p>
+		<p>超级插画设计 3D机器人与平面相结合</p>
+		<p>洁净舒适的XP桌面壁纸 轻松愉快的环境</p>
+		<p>室内装修三维设计 创造简洁舒适</p>
+		<p>世界上令人叹为观止的仿真的机器人</p>
+	</div>
+	<div class="slides-content">
+		<div class="slides-wrap">
+			<div class="slides-item"><a href="#"><img src="img/001.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/002.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/003.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/004.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/005.jpg"/></a></div>
+		</div>
+	</div>
+	<div class="slides-pagination">
+		<span class="focus"><img src="img/001.jpg"/></span>
+		<span><img src="img/002.jpg"/></span>
+		<span><img src="img/003.jpg"/></span>
+		<span><img src="img/004.jpg"/></span>
+		<span><img src="img/005.jpg"/></span>
+	</div>
+</div>
+
+<script>
+
+$1kjs.slides.scroll({
+	g:'#slides3',
+	direction:'top',
+	autoPlay:2000
+});
+</script>
+</body>
+</textarea>
+
+
+<h2>上方向切换幻灯片示例2</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides5{position:relative;padding:6px;width:390px;height:245px;border:1px solid #ccc;line-height:2;font-size:14px;}
+#slides5 .slides-title{position:absolute;top:223px;z-index:2;overflow:hidden;width:390px;height:28px;}
+#slides5 .slides-title p{position:absolute;top:28px;width:390px;padding:0;margin:0;background:#000;color:#fff;text-indent:6px;opacity:0.6;filter:alpha(opacity=60);}
+#slides5 .slides-content{position:relative;height:245px;overflow:hidden;}
+#slides5 .slides-item{}
+#slides5 .slides-content img{border:0;width:390px;height:245px;}
+#slides5 .slides-pagination{position:absolute;right:16px;bottom:40px;}
+#slides5 .slides-pagination span{opacity:0.8;filter:alpha(opacity=80);color:#999;cursor:pointer;float:left;margin:4px 2px;padding:2px 6px;border:1px solid #999;line-height:1;background:#fff;}
+#slides5 .slides-pagination span.focus{border-color:#000;background:#000;color:fff;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides5" class="slides">
+	<div class="slides-title">
+		<p style="top:0">《福娃奥运漫游记》获动漫大赛最佳作品奖</p>
+		<p>超级插画设计 3D机器人与平面相结合</p>
+		<p>洁净舒适的XP桌面壁纸 轻松愉快的环境</p>
+		<p>室内装修三维设计 创造简洁舒适</p>
+		<p>世界上令人叹为观止的仿真的机器人</p>
+	</div>
+	<div class="slides-content">
+		<div class="slides-wrap">
+			<div class="slides-item"><a href="#"><img src="img/001.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/002.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/003.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/004.jpg"/></a></div>
+			<div class="slides-item"><a href="#"><img src="img/005.jpg"/></a></div>
+		</div>
+	</div>
+	<div class="slides-pagination">
+		<span class="focus">1</span>
+		<span>2</span>
+		<span>3</span>
+		<span>4</span>
+		<span>5</span>
+	</div>
+</div>
+
+<script>
+
+$1kjs.slides.scroll({
+	g:'#slides5',
+	direction:'top',
+	autoPlay:2000
+}).on('switch',function(){
+	var me=this;
+	this.title.eq(this.oldIdx).anime({y:28,t:300,after:function(){
+		me.title.eq(me.nowIdx).anime({y:0,t:300});
+	}});
+});
+</script>
+</body>
+</textarea>
+
+
+<h2>循环切换幻灯片示例</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides4{position:relative;padding:0px 24px;width:588px;}
+#slides4 .slides4-box{padding:8px;border:1px solid #ccc;}
+#slides4 .slides-content{position:relative;width:570px;height:270px;overflow:hidden;}
+#slides4 .slides-content .slides-wrap{position:absolute;overflow:hidden;left:0;top:0;height:270px;}
+#slides4 .slides-content .slides-item img{width:570px;height:270px;border:0;}
+#slides4 .slides-title{position:absolute;z-index:2;width:570px;height:28px;overflow:hidden;left:33px;top:251px;}
+#slides4 .slides-title li{position:absolute;top:28px;background:#000;opacity:0.6;color:#fff;text-indent:6px;width:100%;}
+#slides4 .slides-pagination{text-align:center;margin-top:4px;}
+#slides4 .slides-pagination span{cursor:pointer;display:inline-block;overflow:hidden;margin:4px 2px;width:12px;height:12px;background:url(img/pagination.png) 0 0;}
+#slides4 .slides-pagination span.focus{background-position:0 -12px;}
+#slides4 .slides-prev{position:absolute;width:24px;height:43px;top:50%;margin-top:-22px;cursor:pointer;left:0;background:url(img/arrow-prev.png) 0 0;}
+#slides4 .slides-next{position:absolute;width:24px;height:43px;top:50%;margin-top:-22px;cursor:pointer;right:0;background:url(img/arrow-next.png) 0 0;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides4">
+	<div class="slides4-box">
+		<div class="slides-content">
+			<div class="slides-wrap">
+				<div class="slides-item"><a href="#"><img src="img/slide-1.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-2.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-3.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-4.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-5.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-6.jpg"/></a></div>
+				<div class="slides-item"><a href="#"><img src="img/slide-7.jpg"/></a></div>
+			</div>
+		</div>
+	</div>
+	<div class="slides-pagination clearfix">
+		<span class="focus"></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	<span class="slides-prev"></span>
+	<span class="slides-next"></span>
+</div>
+
+<script>
+$1kjs.slides.scroll({
+	g:'#slides4',
+	direction:'x',
+	etype:'click',
+	//autoPlay:1000,
+	loop:1
+});
+</script>
+</body>
+</textarea>
+
+
+<h2>循环切换幻灯片示例2</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides6{border:1px solid #ccc;float:left;text-align:center;}
+#slides6 .slides-content{position:relative;width:136px;height:324px;overflow:hidden;}
+#slides6 .slides-wrap{position:absolute;left:0;}
+#slides6 .slides-item{padding:2px;}
+#slides6 .slides-item img{border:1px solid #999;display:block;width:130px;height:102px;}
+#slides6 .slides-prev,#slides6 .slides-next{cursor:pointer;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides6">
+	<div class="slides-content">
+		<div class="slides-wrap">
+			<div class="slides-item"><img src="img/lp1.jpg"/></div>
+			<div class="slides-item"><img src="img/lp2.jpg"/></div>
+			<div class="slides-item"><img src="img/lp3.jpg"/></div>
+			<div class="slides-item"><img src="img/lp4.jpg"/></div>
+			<div class="slides-item"><img src="img/lp5.jpg"/></div>
+			<div class="slides-item"><img src="img/lp6.jpg"/></div>
+			<div class="slides-item"><img src="img/lp7.jpg"/></div>
+			<div class="slides-item"><img src="img/lp8.jpg"/></div>
+		</div>
+	</div>
+	<span class="slides-prev">上一页</span>&nbsp;&nbsp;
+	<span class="slides-next">下一页</span>
+</div>
+<br style="clear:left"/>
+<script>
+$1kjs.slides.scroll({
+	g:'#slides6',
+	autoPlay:2200,
+	direction:'y',
+	playCount:3,
+	loop:1
+});
+</script>
+</body>
+</textarea>
+
+<h2>非循环切换幻灯片示例</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides7{border:1px solid #ccc;float:left;text-align:center;}
+#slides7 .slides-content{position:relative;width:136px;height:324px;overflow:hidden;}
+#slides7 .slides-wrap{position:absolute;left:0;}
+#slides7 .slides-item{padding:2px;}
+#slides7 .slides-item img{border:1px solid #999;display:block;width:130px;height:102px;}
+#slides7 .slides-prev,#slides7 .slides-next{cursor:pointer;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides7">
+	<div class="slides-content">
+		<div class="slides-wrap">
+			<div class="slides-item"><img src="img/lp1.jpg"/></div>
+			<div class="slides-item"><img src="img/lp2.jpg"/></div>
+			<div class="slides-item"><img src="img/lp3.jpg"/></div>
+			<div class="slides-item"><img src="img/lp4.jpg"/></div>
+			<div class="slides-item"><img src="img/lp5.jpg"/></div>
+			<div class="slides-item"><img src="img/lp6.jpg"/></div>
+			<div class="slides-item"><img src="img/lp7.jpg"/></div>
+			<div class="slides-item"><img src="img/lp8.jpg"/></div>
+		</div>
+	</div>
+	<span class="slides-prev">上一页</span>&nbsp;&nbsp;
+	<span class="slides-next">下一页</span>
+</div>
+<br style="clear:left"/>
+<script>
+$1kjs.slides.scroll({
+	g:'#slides7',
+	direction:'y',
+	playCount:3
+}).on('init',function(){
+	var me=this;
+	me.next.click(function(){
+		if(me.inEnd){
+			alert('已经到达尾部')
+		}
+	});
+});
+</script>
+</body>
+</textarea>
+
+
+
+
+
+<h2>开发模式下自定义幻灯片</h2>
+<textarea class="lang-html">
+<!doctype html>
+<style>
+#slides8{position:relative;width:760px;height:240px;}
+#slides8 .slides-title{position:absolute;text-align:center;}
+#slides8 .slides-title p{position:absolute;width:760px;color:#fff;display:none;}
+#slides8 .slides-title p.focus{display:block;}
+#slides8 .slides-title em{font-size:20px;}
+#slides8 .slides-item{position:absolute;}
+#slides8 .slides-item img{width:760px;height:240px;}
+#slides8 .masklayer{position:absolute;display:none;width:100%;height:100%;_height:240px;background:#000;opacity:0;filter:alpha(opacity:0);}
+#slides8 .bottombar{position:absolute;background:#000;bottom:0;height:50px;width:100%;border-top:1px solid #fff;opacity:0.6;filter:alpha(opacity:60);}
+#slides8 .slides-pagination{position:absolute;dis_background:#ccc;bottom:20px;}
+#slides8 .slides-pagination span{position:relative;float:left;width:140px;height:42px;}
+#slides8 .slides-pagination span img{position:absolute;left:70px;top:0;border:1px solid #fff;width:52px;height:40px;cursor:pointer;opacity:0.6;filter:alpha(opacity:60);}
+#slides8 .slides-pagination span img.first{left: 61px; opacity: 1;top: -10px;width: 70px;}
+</style>
+<script src="1k-min.js"></script>
+<script src="slides-min.js"></script>
+<body>
+<div id="slides8">
+	<div class="slides-content">
+		
+		<div class="slides-wrap">
+			<div class="slides-item"><img src="img/5.jpg"/></div>
+			<div class="slides-item"><img src="img/5.jpg"/></div>
+			<div class="slides-item"><img src="img/5.jpg"/></div>
+			<div class="slides-item"><img src="img/5.jpg"/></div>
+			<div class="slides-item"><img src="img/5.jpg"/></div>
+		</div>
+		<div class="slides-title">
+			<p class="focus"><em>美景如画的海景</em></p>
+			<p><em>Handy Code</em><br/>春华秋实</p>
+			<p><em>郁郁葱葱的生命</em><br/>生生不息的生命</p>
+			<p><em>孤独的一棵老树</em><br/>等谁呢？</p>
+			<p><em>明媚的向日葵花</em><br/>生生不息的生命</p>
+		</div>
+		<div class="masklayer"></div>
+		<div class="bottombar"></div>
+		<div class="slides-pagination">
+			<span><img class="first" src="img/01.jpg"/></span>
+			<span><img src="img/02.jpg"/></span>
+			<span><img src="img/03.jpg"/></span>
+			<span><img src="img/04.jpg"/></span>
+			<span><img src="img/05.jpg"/></span>
+		</div>
+	</div>
+</div>
+<script>
+$1kjs.slides({
+	g:'#slides8',
+	etype:'click',
+	delay:310
+}).on('init',function(){
+	this.masklayer=this.panel.find('.masklayer');
+}).on('switch',function(){
+	var me=this,
+		nowIdx=me.nowIdx,
+		oldIdx=me.oldIdx;
+	me.masklayer.show().anime({o:0.9,t:200,after:function(){
+		me.item.eq(oldIdx).cls('-focus');
+		me.title.eq(oldIdx).cls('-focus');
+		me.item.eq(nowIdx).cls('+focus');
+		me.title.eq(nowIdx).cls('+focus');
+		me.masklayer.anime({o:0,t:500,after:function(){
+			me.masklayer.hide();
+			
+		}});
+	}});
+	
+	me.pagination.eq(me.nowIdx).find('img').anime({
+		y:-10,t:100,w:70,ws:0.5,o:1,type:'Linear',after:function(){
+			
+			me.pagination.eq(oldIdx).find('img').anime({
+				y:0,t:100,w:52,ws:0.5,o:0.6,type:'circOut',after:function(){
+					
+				}
+			});
+		}
+	});
+});
+</script>
+</body>
+</textarea>
+
+
+
+
+<h2>意见反馈</h2>
+<ul>
+	<li>Q：99420六六7 (加好友请注明：1kjs)</li>
+	<li>M：zjfeihu[at]126.com</li>
+</ul>
+</div>
+<div id="footer"><a href="http://www.1kjs.com/">www.1kjs.com</a></div>
+</div>
+<div id="sidebox">
+	
+</div>
+<script>
+
+</script>
+</body>
+</html>
