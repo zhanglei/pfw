@@ -1263,113 +1263,337 @@ class Lang {
 /**
  *
  */
-class CoreMod {
+class Request {
 
-	protected $params;
+	public function __construct($argument) {
 
-	protected $autoroute = TRUE;
-
-	protected $autorender = FALSE;
+	}
 
 	/**
-	 * The home directory of model
+	 * Retrieve a member of the $_GET superglobal
 	 *
-	 * @var string
-	 */
-	protected $_modelsName = null;
-
-	/**
-	 * Form keys
+	 * If no $key is passed, returns the entire $_GET array.
 	 *
-	 * @var array
+	 * @param string $key
+	 * @param mixed $default Default value to use if key not found
+	 * @return mixed Returns null if key does not exist
 	 */
-	protected $_keys = array();
+	public static function get($key = null, $default = null) {
+		if (null === $key) {
+			return $_GET;
+		}
+
+		return (isset($_GET[$key])) ? $_GET[$key] : $default;
+	}
 
 	/**
-	 * Error
+	 * Retrieve a member of the $_POST superglobal
 	 *
-	 * @var array
-	 */
-	protected $_error;
-
-	/**
-	 * 构造函数
-	 */
-	public function __construct() {
-
-	}
-
-	/**
-	 * Magic method
+	 * If no $key is passed, returns the entire $_POST array.
 	 *
-	 * @param string $methodName
-	 * @param array $args
+	 * @param string $key
+	 * @param mixed $default Default value to use if key not found
+	 * @return mixed Returns null if key does not exist
 	 */
-	public function __call($methodName, $args) {
-		throw new Exception("Call to undefined method:$methodName()");
-	}
+	public static function post($key = null, $default = null) {
+		if (null === $key) {
+			return $_POST;
+		}
 
-	public function _before_() {
-
-	}
-
-	public function _after_() {
-
+		return (isset($_POST[$key])) ? $_POST[$key] : $default;
 	}
 
 	/**
-     * Instantiated model
-     *
-     * @param string $name
-     * @param string $dir
-     * @return Model
-     */
-    protected function model($name = null, $dir = null){
-    	
-    }
-
-	/**
-     * Post var
-     *
-     * @param string $key
-     * @param mixed $default
-     */
-    protected function post($key = null, $default = null){
-    	
-    }
-
-	/**
-     * Get var
-     *
-     * @param string $key
-     * @param mixed $default
-     */
-    protected function get($key = null, $default = null){
-    	
-    }
-	
-	/**
-     * Get data from form
-     *
-     * @param array $keys
-     * @param string $method
-     * @return array
-     */
-	protected function form($keys = null, $method = 'post'){
-		 $data = array();
+	 * Get data from form
+	 *
+	 * @param array $keys
+	 * @param string $method
+	 * @return array
+	 */
+	protected function form($keys = null, $method = 'post') {
+		$data = array();
 	}
-	
+
 	/**
-     * Redirect to other url
-     *
-     * @param string $url
-     */
-    protected function redirect($url, $code = 302){
-    	
-    }
+	 * Return the value of the given HTTP header. Pass the header name as the
+	 * plain, HTTP-specified header name. Ex.: Ask for 'Accept' to get the
+	 * Accept header, 'Accept-Encoding' to get the Accept-Encoding header.
+	 *
+	 * @param string $header HTTP header name
+	 * @return string|false HTTP header value, or false if not found
+	 * @throws Exception
+	 */
+	public static function header($header) {
+		if (empty($header)) {
+			return null;
+		}
 
-	public function isAjax() {
+		// Try to get it from the $_SERVER array first
+		$temp = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
+		if (!empty($_SERVER[$temp])) {
+			return $_SERVER[$temp];
+		}
 
+		// This seems to be the only way to get the Authorization header on
+		// Apache
+		if (function_exists('apache_request_headers')) {
+			$headers = apache_request_headers();
+			if (!empty($headers[$header])) {
+				return $headers[$header];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retrieve a member of the $_SERVER superglobal
+	 *
+	 * If no $key is passed, returns the entire $_SERVER array.
+	 *
+	 * @param string $key
+	 * @param mixed $default Default value to use if key not found
+	 * @return mixed Returns null if key does not exist
+	 */
+	public static function server($key = null, $default = null) {
+		if (null === $key) {
+			return $_SERVER;
+		}
+
+		return (isset($_SERVER[$key])) ? $_SERVER[$key] : $default;
+	}
+
+	/**
+	 * Retrieve a member of the $_ENV superglobal
+	 *
+	 * If no $key is passed, returns the entire $_ENV array.
+	 *
+	 * @param string $key
+	 * @param mixed $default Default value to use if key not found
+	 * @return mixed Returns null if key does not exist
+	 */
+	public static function env($key = null, $default = null) {
+		if (null === $key) {
+			return $_ENV;
+		}
+
+		return (isset($_ENV[$key])) ? $_ENV[$key] : $default;
+	}
+
+	/**
+	 * Was the request made by POST?
+	 *
+	 * @return boolean
+	 */
+	public static function isPost() {
+		if ('POST' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Was the request made by GET?
+	 *
+	 * @return boolean
+	 */
+	public static function isGet() {
+		if ('GET' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Was the request made by PUT?
+	 *
+	 * @return boolean
+	 */
+	public static function isPut() {
+		if ('PUT' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Was the request made by DELETE?
+	 *
+	 * @return boolean
+	 */
+	public static function isDelete() {
+		if ('DELETE' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Was the request made by HEAD?
+	 *
+	 * @return boolean
+	 */
+	public static function isHead() {
+		if ('HEAD' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Was the request made by OPTIONS?
+	 *
+	 * @return boolean
+	 */
+	public static function isOptions() {
+		if ('OPTIONS' == self::server('REQUEST_METHOD')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Is the request a Javascript XMLHttpRequest?
+	 *
+	 * Should work with Prototype/Script.aculo.us, possibly others.
+	 *
+	 * @return boolean
+	 */
+	public static function isAjax() {
+		return ('XMLHttpRequest' == self::header('X_REQUESTED_WITH'));
+	}
+
+	/**
+	 * Is this a Flash request?
+	 *
+	 * @return bool
+	 */
+	public static function isFlashRequest() {
+		return ('Shockwave Flash' == self::header('USER_AGENT'));
+	}
+
+	/**
+	 * Is https secure request
+	 *
+	 * @return boolean
+	 */
+	public static function isSecure() {
+		return ('https' === self::scheme());
+	}
+
+	/**
+	 * Get the request URI scheme
+	 *
+	 * @return string
+	 */
+	public static function scheme() {
+		return ('on' == self::server('HTTPS')) ? 'https' : 'http';
+	}
+
+}
+
+/**
+ *
+ */
+class Response {
+
+	static protected $http_status = array('100' => 'Continue', '101' => 'Switching Protocols', '200' => 'OK', '201' => 'Created', '202' => 'Accepted', '203' => 'Non-Authoritative Information', '204' => 'No Content', '205' => 'Reset Content', '206' => 'Partial Content', '300' => 'Multiple Choices', '301' => 'Moved Permanently', '302' => 'Found', '303' => 'See Other', '304' => 'Not Modified', '305' => 'Use Proxy', '306' => '(Unused)', '307' => 'Temporary Redirect', '400' => 'Bad Request', '401' => 'Unauthorized', '402' => 'Payment Required', '403' => 'Forbidden', '404' => 'Not Found', '405' => 'Method Not Allowed', '406' => 'Not Acceptable', '407' => 'Proxy Authentication Required', '408' => 'Request Timeout', '409' => 'Conflict', '410' => 'Gone', '411' => 'Length Required', '412' => 'Precondition Failed', '413' => 'Request Entity Too Large', '414' => 'Request-URI Too Long', '415' => 'Unsupported Media Type', '416' => 'Requested Range Not Satisfiable', '417' => 'Expectation Failed', '500' => 'Internal Server Error', '501' => 'Not Implemented', '502' => 'Bad Gateway', '503' => 'Service Unavailable', '504' => 'Gateway Timeout', '505' => 'HTTP Version Not Supported', );
+
+	public function __construct($argument) {
+
+	}
+
+	public static function charset($enc = 'UTF-8', $type = 'text/html') {
+		header("Content-Type:$type;charset=$enc");
+	}
+
+	public static function cookie($name, $value = null, $expire = null, $path = null, $domain = null, $secure = false, $httpOnly = false) {
+		return setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+	}
+
+	/**
+	 * Expires
+	 *
+	 * @param int $seconds
+	 */
+	public static function expires($seconds = 1800) {
+		$time = date('D, d M Y H:i:s', time() + $seconds) . ' GMT';
+		header("Expires: $time");
+	}
+
+	/**
+	 * Last modified
+	 *
+	 * @param int $modifiedTime
+	 * @param boolean $notModifiedExit
+	 */
+	public static function lastModified($modifiedTime, $notModifiedExit = true) {
+		$modifiedTime = date('D, d M Y H:i:s \G\M\T', $modifiedTime);
+		if ($notModifiedExit && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $modifiedTime == $_SERVER['HTTP_IF_MODIFIED_SINCE']) {
+			self::statusCode('304');
+			exit();
+		}
+		header("Last-Modified: $modifiedTime");
+	}
+
+	/**
+	 * Etag
+	 *
+	 * Set or check etag
+	 * @param string $etag
+	 * @param boolean $notModifiedExit
+	 */
+	public static function etag($etag, $notModifiedExit = true) {
+		if ($notModifiedExit && isset($_SERVER['HTTP_IF_NONE_MATCH']) && $etag == $_SERVER['HTTP_IF_NONE_MATCH']) {
+			self::statusCode('304');
+			exit();
+		}
+		header("Etag: $etag");
+	}
+
+	/**
+	 * Forces the user's browser not to cache the results of the current request.
+	 *
+	 * @return void
+	 * @access protected
+	 * @link http://book.cakephp.org/view/431/disableCache
+	 */
+	public static function disableBrowserCache() {
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+	}
+
+	/**
+	 * Alert
+	 *
+	 * @param string $text
+	 * @param string $url
+	 */
+	public static function alert($text, $url = null) {
+		$text = addslashes($text);
+		echo "\n<script type=\"text/javascript\">\nalert(\"$text\");\n";
+		if ($url) {
+			echo "window.location.href=\"$url\";\n";
+		}
+		echo "</script>\n";
+	}
+
+	/**
+	 * Redirect to other url
+	 *
+	 * @param string $url
+	 */
+	public static function redirect($url, $code = 302) {
+		header("Location:$url", true, $code);
+		exit();
 	}
 
 	public function toJSON($result, $output = false, $removeNullField = false, $exceptField = null, $mustRemoveFieldList = null, $setJSONContentType = true, $encoding = 'utf-8') {
@@ -1450,7 +1674,8 @@ class CoreMod {
 	}
 
 	public function toXML($result, $output = false, $setXMLContentType = false, $encoding = 'utf-8') {
-		$str = '<?xml version="1.0" encoding="utf-8"?><result>';
+		$str = '<?xml version="1.0" encoding="utf-8"
+?><result>';
 		foreach ($result as $kk => $vv) {
 			$cls = get_class($vv);
 			$str .= '<' . $cls . '>';
@@ -1492,7 +1717,8 @@ class CoreMod {
 			}
 			$str .= '</' . $cls . '>';
 		}
-		$str .= '</result>';
+		$str .= '</result>
+';
 		if ($setXMLContentType === true)
 			$this -> setContentType('xml', $encoding);
 		if ($output === true)
@@ -1505,11 +1731,41 @@ class CoreMod {
 /**
  *
  */
-class AppModel {
+class CoreMod {
 
-	protected $_db = '_db';
+	protected $params;
 
-	protected $_table;
+	protected $autoroute = TRUE;
+
+	protected $autorender = FALSE;
+
+	/**
+	 * The home directory of model
+	 *
+	 * @var string
+	 */
+	protected $_modelsHome = null;
+
+	/**
+	 * The home directory of view
+	 *
+	 * @var string
+	 */
+	protected $_viewsHome = null;
+
+	/**
+	 * Form keys
+	 *
+	 * @var array
+	 */
+	protected $_keys = array();
+
+	/**
+	 * Error
+	 *
+	 * @var array
+	 */
+	protected $_error;
 
 	/**
 	 * 构造函数
@@ -1518,7 +1774,287 @@ class AppModel {
 
 	}
 
-	public function find() {
+	/**
+	 * Magic method
+	 *
+	 * @param string $methodName
+	 * @param array $args
+	 */
+	public function __call($methodName, $args) {
+		throw new Exception("Call to undefined method:$methodName()");
+	}
+
+	public function _before_() {
+
+	}
+
+	public function _after_() {
+
+	}
+
+	/**
+	 * Dynamic set vars
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function __set($key, $value = null) {
+		$this -> $key = $value;
+	}
+
+	/**
+	 * Dynamic get vars
+	 *
+	 * @param string $key
+	 */
+	public function __get($key) {
+		switch ($key) {
+			case 'request' :
+				$this -> request = new Request();
+				return $this -> request;
+			case 'response' :
+				$this -> response = new Response();
+				return $this -> response;
+			case 'model' :
+				$class = get_class($this);
+				$this -> model = $this -> model(substr($class, 0, -3));
+				return $this -> model;
+			default :
+				throw new Exception('Undefined property: ' . get_class($this) . '::' . $key);
+		}
+	}
+
+	/**
+	 * Instantiated model
+	 *
+	 * @param string $name
+	 * @param string $dir
+	 * @return Model
+	 */
+	protected function model($name = null, $dir = null) {
+		if (null === $name) {
+			return $this -> model;
+		}
+
+		null === $dir && $dir = $this -> _modelsHome;
+		$class = ucfirst($name) . 'Model';
+		if (App::loadClass($class, $dir)) {
+			return new $class();
+		}
+
+		throw new exception("Can't load model '$class' from '$dir'");
+	}
+
+}
+
+/**
+ *
+ */
+class AppModel {
+
+	/**
+	 * Db name
+	 *
+	 * @var string
+	 */
+	protected $_db = '_db';
+
+	/**
+	 * Table name, with prefix and main name
+	 *
+	 * @var string
+	 */
+	protected $_table;
+
+	/**
+	 * Primary key
+	 *
+	 * @var string
+	 */
+	protected $_pk = 'id';
+
+	/**
+	 * Error
+	 *
+	 * @var mixed string | array
+	 */
+	protected $_error;
+
+	/**
+	 * Validate rules
+	 *
+	 * @var array
+	 */
+	protected $_validate = array();
+
+	const UNKNOWN_ERROR = -9;
+	const SYSTEM_ERROR = -8;
+	const VALIDATE_ERROR = -7;
+
+	/**
+	 * construct
+	 */
+	public function __construct() {
+
+	}
+
+	/**
+	 * Load data
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public function load($id, $col = null) {
+
+	}
+
+	/**
+	 * Find result
+	 *
+	 * @param array $conditions
+	 * @return array
+	 */
+	public function find($conditions = array()) {
+		if (is_string($conditions)) {
+			$conditions = array('where' => $conditions);
+		}
+		$conditions += array('table' => $this -> _table);
+	}
+
+	/**
+	 * Count result
+	 *
+	 * @param string $where
+	 * @param string $table
+	 * @return int
+	 */
+	public function count($where, $table = null) {
+
+	}
+
+	/**
+	 * Query SQL
+	 *
+	 * @param string $sql
+	 * @return mixed
+	 */
+	public function query($sql) {
+
+	}
+
+	/**
+	 * Get SQL result
+	 *
+	 * @param string $sql
+	 * @return array
+	 */
+	public function sql($sql) {
+
+	}
+
+	/**
+	 * Insert
+	 *
+	 * @param array $data
+	 * @param string $table
+	 * @return boolean
+	 */
+	public function insert($data, $table = null) {
+
+	}
+
+	/**
+	 * Update
+	 *
+	 * @param int $id
+	 * @param array $data
+	 * @return boolean
+	 */
+	public function update($id, $data) {
+
+	}
+
+	/**
+	 * Delete
+	 *
+	 * @param string $where
+	 * @param string $table
+	 * @return boolean
+	 */
+	public function delete($id, $col = null) {
+
+	}
+
+	/**
+	 * Get function cache
+	 *
+	 * @param string $func
+	 * @param mixed $args
+	 * @param int $expire
+	 * @return mixed
+	 */
+	public function cached($func, $args = null, $expire = 60) {
+
+	}
+
+	/**
+	 * Escape string
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	public function escape($str) {
+
+	}
+
+	/**
+	 * Dynamic set vars
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function __set($key, $value = null) {
+		$this -> $key = $value;
+	}
+
+	/**
+	 * Connect db from config
+	 *
+	 * @param array $config
+	 * @param string $regName
+	 * @return Cola_Com_Db
+	 */
+	public function db($name = null) {
+
+	}
+
+	/**
+	 * Set table Name
+	 *
+	 * @param string $table
+	 */
+	public function table($table = null) {
+
+	}
+
+	/**
+	 * Get or set error
+	 *
+	 * @param mixed $error string|array
+	 * @return mixed $error string|array
+	 */
+	public function error($error = null) {
+
+	}
+
+	/**
+	 * Validate
+	 *
+	 * @param array $data
+	 * @param boolean $ignoreNotExists
+	 * @return boolean
+	 */
+	public function validate($data, $ignoreNotExists = false) {
 
 	}
 
